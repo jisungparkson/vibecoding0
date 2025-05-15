@@ -1,151 +1,90 @@
 import streamlit as st
 
-# --- 페이지 설정 ----
-st.set_page_config(page_title="MBTI 맞춤 커리어 나침반", page_icon="🧭", layout="centered")
+# --- 페이지 설정 (선택 사항, 메인 앱에서 한 번만 해도 됨) ---
+# st.set_page_config(page_title="MBTI 궁합 보기", page_icon="💕")
 
-# --- 데이터 ----
-MBTI_LIST = [
-    "INTJ", "INTP", "ENTJ", "ENTP",
-    "INFJ", "INFP", "ENFJ", "ENFP",
-    "ISTJ", "ISFJ", "ESTJ", "ESFJ",
-    "ISTP", "ISFP", "ESTP", "ESFP"
+st.title("💖 MBTI 유형별 궁합 보기")
+st.write("나와 상대방의 MBTI 유형을 선택하고 궁합을 알아보세요!")
+st.caption("MBTI 궁합은 재미로 참고해주세요. 모든 관계는 개인의 노력과 성향에 따라 달라질 수 있습니다.")
+
+# --- MBTI 유형 목록 ---
+mbti_types = [
+    "ISTJ", "ISFJ", "INFJ", "INTJ",
+    "ISTP", "ISFP", "INFP", "INTP",
+    "ESTP", "ESFP", "ENFP", "ENTP",
+    "ESTJ", "ESFJ", "ENFJ", "ENTJ"
 ]
 
-MBTI_DESCRIPTIONS = {
-    "INTJ": "**전략가형 (The Architect)**\n\n상상력이 풍부하며 철두철미한 계획을 세우는 전략가형입니다. 모든 일에 계획을 세우고 상상력을 발휘하여 목표를 달성합니다. 독립적이고 분석적이며, 복잡한 문제를 해결하는 데 능숙합니다.",
-    "INTP": "**논리술사형 (The Logician)**\n\n끊임없이 새로운 지식에 목말라 하는 혁신가형입니다. 논리적이고 분석적이며, 독창적인 아이디어를 탐구하는 것을 즐깁니다. 지적 호기심이 강하고, 복잡한 이론을 이해하는 데 뛰어납니다.",
-    "ENTJ": "**통솔자형 (The Commander)**\n\n대담하면서도 상상력이 풍부한 강한 의지의 지도자형입니다. 다양한 방법을 모색하거나 여의치 않을 경우 새로운 방안을 창출합니다. 타고난 리더십과 결단력으로 목표를 추진하며, 조직을 이끄는 데 능합니다.",
-    "ENTP": "**변론가형 (The Debater)**\n\n지적인 도전을 두려워하지 않는 똑똑한 호기심형입니다. 새로운 아이디어를 탐구하고 논쟁하는 것을 즐깁니다. 재치 있고 창의적이며, 기존의 방식에 의문을 제기하며 혁신을 추구합니다.",
-    "INFJ": "**옹호자형 (The Advocate)**\n\n조용하고 신비로우며 샘솟는 영감으로 지칠 줄 모르는 이상주의자입니다. 깊은 통찰력과 공감 능력을 바탕으로 다른 사람을 돕고자 합니다. 강한 신념을 가지고 있으며, 세상을 더 나은 곳으로 만들고자 노력합니다.",
-    "INFP": "**중재자형 (The Mediator)**\n\n상냥한 성격의 이타주의자로 건강하고 밝은 사회 건설에 앞장서는 낭만형입니다. 진실함과 연민을 중요시하며, 자신의 가치관에 따라 살아갑니다. 창의적이고 이상적이며, 다른 사람의 감정에 깊이 공감합니다.",
-    "ENFJ": "**선도자형 (The Protagonist)**\n\n넘치는 카리스마와 영향력으로 청중을 압도하는 리더형입니다. 사람들에게 영감을 주고 긍정적인 변화를 이끌어내는 데 열정적입니다. 사교적이고 공감 능력이 뛰어나며, 타인의 성장을 돕는 것을 중요하게 생각합니다.",
-    "ENFP": "**활동가형 (The Campaigner)**\n\n창의적이며 항상 웃을 거리를 찾아다니는 활발한 성격으로 사람들과 자유롭게 어울리기를 좋아하는 사교형입니다. 열정적이고 상상력이 풍부하며, 새로운 가능성을 탐색하는 것을 즐깁니다. 긍정적이고 에너지가 넘칩니다.",
-    "ISTJ": "**현실주의자형 (The Logistician)**\n\n사실에 근거하여 사고하며 이들의 행동이나 결정 사항에 한 치의 의심을 사지 않는 현실주의자형입니다. 책임감이 강하고 조직적이며, 규칙과 절차를 중요시합니다. 신뢰할 수 있고 꼼꼼합니다.",
-    "ISFJ": "**수호자형 (The Defender)**\n\n소중한 이들을 방어할 준비가 되어 있는 헌신적이고 따뜻한 수호자형입니다. 타인에 대한 배려심이 깊고 책임감이 강합니다. 안정적이고 실용적이며, 주변 사람들을 돕는 데서 만족을 느낍니다.",
-    "ESTJ": "**경영자형 (The Executive)**\n\n사물이나 사람을 관리하는 데 뛰어난 실력을 갖춘 경영자형입니다. 질서와 조직을 중시하며, 효율적으로 일을 처리합니다. 결단력 있고 책임감이 강하며, 전통적인 가치를 존중합니다.",
-    "ESFJ": "**집정관형 (The Consul)**\n\n타인을 향한 세심한 관심과 사교적인 성향으로 사람들 내에서 인기가 많으며, 타인을 돕는데 열성적인 세심형입니다. 주변 사람들과의 조화를 중요시하며, 타인의 필요를 채워주는 데 능숙합니다. 친절하고 협조적입니다.",
-    "ISTP": "**장인형 (The Virtuoso)**\n\n대담하고 현실적인 성향으로 다양한 도구 사용에 능숙한 탐험형입니다. 손으로 무언가를 만들거나 문제를 해결하는 것을 즐깁니다. 논리적이고 실용적이며, 위기 상황에서 침착하게 대처합니다.",
-    "ISFP": "**모험가형 (The Adventurer)**\n\n항상 새로운 것을 찾아 시도하거나 도전할 준비가 되어 있는 융통성 있는 성격의 매력 넘치는 예술가형입니다. 현재를 즐기며, 아름다움과 미적 감각을 중요시합니다. 온화하고 겸손하며, 예술적인 재능을 가진 경우가 많습니다.",
-    "ESTP": "**사업가형 (The Entrepreneur)**\n\n명석한 두뇌와 에너지, 그리고 뛰어난 직관력으로 위험을 즐기는 성격의 사업가형입니다. 현실적이고 행동 지향적이며, 새로운 경험과 도전을 즐깁니다. 사교적이고 설득력이 뛰어나며, 문제 해결에 능숙합니다.",
-    "ESFP": "**연예인형 (The Entertainer)**\n\n주위에 있으면 인생이 지루할 새가 없을 정도로 즉흥적이며 열정과 에너지가 넘치는 연예인형입니다. 사교적이고 활동적이며, 사람들과 어울리는 것을 좋아합니다. 현재를 즐기고, 다른 사람들에게 즐거움을 선사합니다."
+# --- MBTI 궁합 데이터 (예시) ---
+# 실제 데이터는 더 상세하게 구성하거나 외부 파일(CSV, JSON)에서 불러오는 것이 좋습니다.
+# 여기서는 간단한 설명을 위해 직접 정의합니다.
+# 키: (유형1, 유형2) 튜플, 값: 궁합 설명 (순서는 상관없도록 처리하거나, 양방향 모두 정의)
+compatibility_dict = {
+    # 천생연분 예시 (일방향 또는 양방향 모두 정의 필요)
+    ("ENFP", "INFJ"): "✨ 천생연분: 서로에게 깊은 영감을 주고 끊임없이 새로운 것을 발견하는, 영혼의 단짝 같은 관계입니다. 함께 있을 때 가장 큰 행복과 성장을 경험할 수 있습니다.",
+    ("INFJ", "ENFP"): "✨ 천생연분: 서로에게 깊은 영감을 주고 끊임없이 새로운 것을 발견하는, 영혼의 단짝 같은 관계입니다. 함께 있을 때 가장 큰 행복과 성장을 경험할 수 있습니다.",
+    ("ENTP", "INFJ"): "🤝 좋은 궁합: 서로의 지적인 면을 자극하며 끊임없이 대화하고 탐구하는 것을 즐깁니다. 때로는 의견 충돌도 있지만, 이를 통해 더욱 발전하는 관계입니다.",
+    ("INFJ", "ENTP"): "🤝 좋은 궁합: 서로의 지적인 면을 자극하며 끊임없이 대화하고 탐구하는 것을 즐깁니다. 때로는 의견 충돌도 있지만, 이를 통해 더욱 발전하는 관계입니다.",
+    ("ISFP", "ESFJ"): "😊 좋은 궁합: 서로를 편안하게 해주고 감정적인 지지를 아끼지 않는 따뜻한 관계입니다. 함께 소소한 행복을 나누는 것을 즐깁니다.",
+    ("ESFJ", "ISFP"): "😊 좋은 궁합: 서로를 편안하게 해주고 감정적인 지지를 아끼지 않는 따뜻한 관계입니다. 함께 소소한 행복을 나누는 것을 즐깁니다.",
+
+    # 그저 그런 궁합 예시
+    ("ISTJ", "INTP"): "😐 보통 궁합: 서로 다른 점이 많지만, 각자의 영역을 존중한다면 무난한 관계를 이어갈 수 있습니다. 공통의 목표를 설정하는 것이 도움이 됩니다.",
+    ("INTP", "ISTJ"): "😐 보통 궁합: 서로 다른 점이 많지만, 각자의 영역을 존중한다면 무난한 관계를 이어갈 수 있습니다. 공통의 목표를 설정하는 것이 도움이 됩니다.",
+
+    # 안 좋은 궁합 예시 (표현에 주의)
+    ("INFP", "ESTJ"): "⚠️ 노력이 필요한 궁합: 가치관과 문제 해결 방식에서 큰 차이를 보여 많은 이해와 노력이 필요합니다. 서로의 다름을 인정하고 존중하는 것이 중요합니다.",
+    ("ESTJ", "INFP"): "⚠️ 노력이 필요한 궁합: 가치관과 문제 해결 방식에서 큰 차이를 보여 많은 이해와 노력이 필요합니다. 서로의 다름을 인정하고 존중하는 것이 중요합니다.",
+
+    # 파국 (매우 안 좋은 관계) 표현보다는 "서로 매우 다른 유형" 등으로 순화하는 것이 좋습니다.
+    ("ISFJ", "ENTP"): "🤯 서로 매우 다른 유형: 삶의 방식과 우선순위가 매우 달라 갈등이 잦을 수 있습니다. 열린 마음으로 소통하고 서로를 배우려는 자세가 중요합니다.",
+    ("ENTP", "ISFJ"): "🤯 서로 매우 다른 유형: 삶의 방식과 우선순위가 매우 달라 갈등이 잦을 수 있습니다. 열린 마음으로 소통하고 서로를 배우려는 자세가 중요합니다.",
 }
 
-JOB_RECOMMENDATIONS = {
-    "INTJ": ["데이터 과학자", "전략 컨설턴트", "시스템 엔지니어", "연구 개발 관리자", "투자 분석가", "변리사", "대학교수"],
-    "INTP": ["이론 물리학자", "AI 개발자", "UX 디자이너", "소프트웨어 아키텍트", "철학자", "데이터 분석가", "정보 보안 분석가"],
-    "ENTJ": ["CEO", "정책 분석가", "경영 컨설턴트", "벤처 캐피탈리스트", "변호사", "기업 임원", "프로덕트 오너"],
-    "ENTP": ["창업가", "마케팅 전략가", "프로덕트 매니저", "광고 크리에이터", "정치 컨설턴트", "발명가", "저널리스트"],
-    "INFJ": ["상담사", "작가", "사회복지사", "임상 심리사", "특수교육 교사", "UX 리서처", "인사 전문가"],
-    "INFP": ["시인", "예술가", "콘텐츠 크리에이터", "그래픽 디자이너", "편집자", "심리 치료사", "사서"],
-    "ENFJ": ["교사", "HR 매니저", "심리학자", "기업 코치", "영업 관리자", "비영리 단체 운영자", "커뮤니티 매니저"],
-    "ENFP": ["홍보 전문가", "여행작가", "교육 콘텐츠 개발자", "이벤트 기획자", "카피라이터", "아트 디렉터", "상담가"],
-    "ISTJ": ["회계사", "공무원", "품질 관리 전문가", "프로젝트 관리자", "법률 사무원", "데이터베이스 관리자", "감리사"],
-    "ISFJ": ["간호사", "초등교사", "도서관 사서", "행정 보조원", "영양사", "물리치료사", "수의사 보조"],
-    "ESTJ": ["프로젝트 매니저", "행정 공무원", "기업 관리자", "경찰관", "판사", "건설 관리자", "재무 관리자"],
-    "ESFJ": ["상담 교사", "사회복지사", "이벤트 플래너", "호텔 지배인", "고객 서비스 매니저", "인사 담당자", "영양사"],
-    "ISTP": ["엔지니어", "기계 기술자", "보안 전문가", "파일럿", "소방관", "응급 구조사", "목수"],
-    "ISFP": ["플로리스트", "패션 디자이너", "요리사", "사진작가", "음악가", "인테리어 디자이너", "수의사"],
-    "ESTP": ["세일즈 전문가", "응급 구조사", "스포츠 코치", "기업가", "부동산 중개인", "경찰 형사", "마케터"],
-    "ESFP": ["연예인", "방송인", "뷰티 크리에이터", "행사 MC", "항공 승무원", "피트니스 강사", "파티 플래너"]
-}
+# --- 사용자 입력 ---
+col1, col2 = st.columns(2)
 
-# --- 스타일 커스터마이징 ---
-st.markdown("""
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap');
-        body {
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-        .title {
-            font-size:42px; /* 살짝 줄임 */
-            font-weight:800; /* 굵게 */
-            color:#2c3e50;
-            text-align:center;
-            margin-bottom: 10px; /* 간격 추가 */
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-        .subtitle {
-            font-size:18px; /* 살짝 줄임 */
-            color:#7f8c8d;
-            text-align:center;
-            margin-bottom: 30px; /* 간격 추가 */
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-        .mbti-header {
-            font-size: 28px;
-            font-weight: 700;
-            color: #2980b9;
-            margin-top: 20px;
-            margin-bottom: 10px;
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-        .recommendation-header {
-            font-size: 22px;
-            font-weight: 700;
-            color: #16a085;
-            margin-top: 15px;
-            margin-bottom: 8px;
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-        .job-item {
-            background-color: #f8f9fa;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 8px;
-            font-size: 16px;
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-        .mbti-description-box {
-            background-color: #e8f6f3;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 5px solid #1abc9c;
-            margin-bottom: 20px;
-            font-family: 'Nanum Gothic', sans-serif;
-        }
-    </style>
-""", unsafe_allow_html=True)
+with col1:
+    # 만약 이전 페이지(MBTI 검사)에서 결과를 st.session_state에 저장했다면, 기본값으로 활용 가능
+    my_mbti_default_index = 0 # 기본적으로 첫 번째 MBTI를 선택
+    if 'mbti_result' in st.session_state and st.session_state.mbti_result in mbti_types:
+        my_mbti_default_index = mbti_types.index(st.session_state.mbti_result)
+    my_mbti = st.selectbox("나의 MBTI 유형:", mbti_types, index=my_mbti_default_index, key="my_mbti_compatibility")
 
-# --- 제목 ---
-st.markdown('<div class="title">🧭 MBTI 맞춤 커리어 나침반</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">나의 성향에 딱 맞는 직업을 탐색하고 미래를 설계해 보세요!</div>', unsafe_allow_html=True)
-st.markdown("---")
+with col2:
+    partner_mbti = st.selectbox("상대방 MBTI 유형:", mbti_types, index=1, key="partner_mbti_compatibility") # 기본적으로 두 번째 MBTI를 선택
 
-# --- MBTI 선택 ---
-selected_mbti = st.selectbox(
-    "👇 당신의 MBTI 유형을 선택해 주세요:",
-    MBTI_LIST,
-    index=None, # 기본 선택 없음
-    placeholder="MBTI 유형을 선택하세요..."
-)
-
-# --- 결과 출력 ---
-if selected_mbti:
-    st.markdown(f'<div class="mbti-header">✨ {selected_mbti} 유형 특징 및 추천 직업</div>', unsafe_allow_html=True)
-
-    col1, col2 = st.columns([0.8, 1.2]) # MBTI 설명과 직업 추천 영역 비율 조정
-
-    with col1:
-        st.subheader(f"💡 {selected_mbti}는 어떤 유형일까요?")
-        mbti_desc = MBTI_DESCRIPTIONS.get(selected_mbti, "해당 MBTI 유형에 대한 설명이 아직 준비되지 않았습니다.")
-        st.markdown(f'<div class="mbti-description-box">{mbti_desc}</div>', unsafe_allow_html=True)
-
-    with col2:
-        st.subheader("🎯 추천 직업 리스트")
-        jobs = JOB_RECOMMENDATIONS.get(selected_mbti, [])
-        if jobs:
-            for job in jobs:
-                st.markdown(f"<div class='job-item'>💼 {job}</div>", unsafe_allow_html=True)
+# --- 궁합 결과 표시 ---
+if st.button("궁합 결과 보기 🔍"):
+    if my_mbti and partner_mbti:
+        if my_mbti == partner_mbti:
+            st.info("😊 자기 자신과의 궁합은 언제나 최고죠! 스스로를 사랑하는 당신은 멋져요!")
         else:
-            st.warning("해당 MBTI 유형에 대한 추천 직업 정보가 아직 없습니다.")
+            # 궁합 데이터에서 결과 조회 (순서에 상관없이 조회 가능하도록 처리)
+            result_key1 = (my_mbti, partner_mbti)
+            result_key2 = (partner_mbti, my_mbti)
+            
+            compatibility_info = compatibility_dict.get(result_key1)
+            if compatibility_info is None:
+                compatibility_info = compatibility_dict.get(result_key2)
 
-    st.markdown("---")
-    st.info("🌟 **팁:** MBTI는 성격 선호도를 나타내는 지표일 뿐, 절대적인 기준은 아니에요. 다양한 가능성을 열어두고 자신에게 맞는 길을 찾아보세요!")
-    st.balloons() # 풍선 효과로 변경
-
-else:
-    st.info("👆 위에서 MBTI 유형을 선택하면 맞춤 정보를 확인할 수 있습니다.")
-    st.image("https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80", caption="나에게 맞는 길을 찾아 떠나요!") # 예시 이미지
+            if compatibility_info:
+                st.subheader(f"'{my_mbti}'와(과) '{partner_mbti}'의 궁합")
+                # 궁합 설명에 따라 아이콘이나 색상 변경 가능
+                if "천생연분" in compatibility_info:
+                    st.success(compatibility_info)
+                elif "좋은 궁합" in compatibility_info:
+                    st.info(compatibility_info)
+                elif "보통 궁합" in compatibility_info or "무난한" in compatibility_info:
+                    st.markdown(compatibility_info)
+                elif "노력이 필요한" in compatibility_info or "매우 다른" in compatibility_info:
+                    st.warning(compatibility_info)
+                else:
+                    st.markdown(compatibility_info) # 기본
+            else:
+                st.warning(f"'{my_mbti}'와(과) '{partner_mbti}' 조합에 대한 궁합 정보가 아직 준비되지 않았습니다. 😥")
+    else:
+        st.error("두 MBTI 유형을 모두 선택해주세요.")
 
 st.markdown("---")
-st.markdown("<div style='text-align: center; color: #888;'>MBTI 정보는 일반적인 성향을 바탕으로 하며, 개인차를 고려하여 참고용으로 활용해 주세요.</div>", unsafe_allow_html=True)
+st.caption("본 MBTI 궁합 정보는 일반적인 경향성을 나타내며, 개인차를 고려해야 합니다. 재미로 참고하시고, 모든 관계는 서로의 이해와 노력이 가장 중요합니다.")
