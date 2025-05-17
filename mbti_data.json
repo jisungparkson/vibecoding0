@@ -1,0 +1,65 @@
+{
+  "ISTJ": {
+    "icon": "icons/ISTJ_icon.png",
+    "catchphrase": "세상의 소금, 책임감 있는 현실주의자",
+    "summary": "실제 경험을 중시하며, 한번 시작한 일은 끝까지 해내는 책임감이 강한 유형입니다. 약속을 잘 지키고 질서와 규칙을 중요하게 생각합니다.",
+    "strengths": ["책임감 강함", "철저함", "현실적", "조직적", "끈기 있음", "신뢰할 수 있음"],
+    "weaknesses": ["융통성 부족 가능성", "새로운 변화에 대한 저항감", "타인의 감정 고려 미흡 가능성", "지나치게 비판적일 수 있음"],
+    "work_style": "구체적이고 명확한 업무 지시를 선호하며, 체계적인 계획 하에 업무를 수행합니다. 마감 기한을 철저히 준수하며, 안정적이고 예측 가능한 환경에서 능력을 발휘합니다.",
+    "stress_response": "과도한 업무량, 예측 불가능한 상황, 비효율적인 시스템에서 스트레스를 받으며, 혼자만의 시간을 통해 문제 해결에 집중하며 회복하려는 경향이 있습니다.",
+    "development_points": ["새로운 시도와 변화에 대한 개방성 기르기", "타인의 감정에 대한 공감 능력 향상", "유연한 사고방식 갖기"],
+    "recommended_jobs_detailed": {
+      "회계사": {
+        "reason": "정확성, 꼼꼼함, 규칙 준수를 중시하는 ISTJ의 성향과 잘 맞습니다.",
+        "tasks": ["재무 기록 분석 및 보고", "세무 신고 및 자문", "예산 편성 및 관리", "회계 감사 대응"],
+        "skills": ["수리 능력", "분석적 사고", "세법 및 회계 기준 지식", "세심함"]
+      },
+      "프로젝트 관리자": {
+        "reason": "체계적인 계획 수립 및 실행, 일정 관리, 자원 배분에 능한 ISTJ에게 적합합니다.",
+        "tasks": ["프로젝트 범위 정의 및 목표 설정", "프로젝트 계획 수립 및 실행", "팀 관리 및 자원 배분", "위험 관리 및 문제 해결", "진행 상황 보고"],
+        "skills": ["리더십", "조직력", "의사소통 능력", "문제 해결 능력", "시간 관리 능력"]
+      },
+      "법률 사무원/변리사 보조": {
+        "reason": "세부 사항에 대한 주의력과 규정 준수 능력이 요구되는 분야입니다.",
+        "tasks": ["법률 문서 작성 및 검토", "사건 파일 관리", "재판 준비 지원", "고객 상담 초기 대응"],
+        "skills": ["문서 작성 능력", "정보 검색 능력", "법률 용어 이해", "기밀 유지"]
+      }
+    }
+  },
+  "ENFP": {
+    "icon": "icons/ENFP_icon.png",
+    "catchphrase": "열정적인 중재자, 창의적인 활동가",
+    "summary": "상상력이 풍부하고 열정적이며, 새로운 가능성을 탐색하는 것을 즐깁니다. 사람들에게 긍정적인 영향을 미치고 싶어하며, 타인과의 관계를 중시합니다.",
+    "strengths": ["창의적", "열정적", "사교적", "공감 능력 뛰어남", "새로운 아이디어 풍부"],
+    "weaknesses": ["쉽게 싫증을 느낌", "마무리 부족 가능성", "과도한 감정 기복", "현실 감각 부족 가능성"],
+    "work_style": "자율적이고 창의적인 환경에서 능력을 발휘하며, 다양한 프로젝트에 참여하는 것을 선호합니다. 사람들과 협력하고 영감을 주는 역할을 즐깁니다.",
+    "stress_response": "엄격한 규칙, 반복적인 업무, 비판적인 환경에서 스트레스를 받으며, 새로운 활동이나 사람들과의 교류를 통해 회복하려 합니다.",
+    "development_points": ["계획성과 꾸준함 기르기", "현실적인 목표 설정", "감정 조절 능력 향상"],
+    "recommended_jobs_detailed": {
+      "마케터/광고 기획자": {
+        "reason": "창의적인 아이디어와 사람들의 마음을 움직이는 능력이 중요합니다.",
+        "tasks": ["시장 조사 및 분석", "마케팅 전략 수립", "광고 캠페인 기획 및 실행", "콘텐츠 제작"],
+        "skills": ["창의력", "설득력", "트렌드 분석 능력", "커뮤니케이션 능력"]
+      },
+      "상담가/코치": {
+        "reason": "타인에 대한 깊은 공감 능력과 사람들을 돕고자 하는 열정이 잘 맞습니다.",
+        "tasks": ["개인 및 그룹 상담 진행", "목표 설정 및 달성 지원", "심리적 지원 제공"],
+        "skills": ["공감 능력", "경청 능력", "상담 기법", "윤리 의식"]
+      }
+    }
+  },
+  "INFP": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "INFJ": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "INTJ": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "INTP": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ESFP": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ESTP": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ESFJ": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ESTJ": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ENFJ": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ENTJ": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ENTP": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ISFP": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ISFJ": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} },
+  "ISTP": { "icon": "", "catchphrase": "", "summary": "", "strengths": [], "weaknesses": [], "work_style": "", "stress_response": "", "development_points": [], "recommended_jobs_detailed": {} }
+}
